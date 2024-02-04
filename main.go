@@ -15,5 +15,9 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(root.Eval())
+	if v, err := root.Eval(); err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(v)
+	}
 }
