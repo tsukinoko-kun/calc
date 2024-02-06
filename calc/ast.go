@@ -48,7 +48,7 @@ func Ast(tokens []string) (AstNode, error) {
 		default:
 			number, err := ParseNumber(token)
 			if err != nil {
-				return nil, err
+				return nil, errors.Wrapf(err, "Failed to parse number '%s'", token)
 			}
 			nodes[i] = &numberNode{number}
 		}
@@ -216,14 +216,14 @@ func (n *plusNode) Eval() (float64, error) {
 	}
 	a, err := n.left.Eval()
 	if err != nil {
-		return 0, err
+		return 0, errors.Wrap(err, "Failed to evaluate left side of +")
 	}
 	if n.right == nil {
 		return 0, fmt.Errorf("Right side of + is nil")
 	}
 	b, err := n.right.Eval()
 	if err != nil {
-		return 0, err
+		return 0, errors.Wrap(err, "Failed to evaluate right side of +")
 	}
 	return a + b, nil
 }
@@ -239,14 +239,14 @@ func (n *minusNode) Eval() (float64, error) {
 	}
 	a, err := n.left.Eval()
 	if err != nil {
-		return 0, err
+		return 0, errors.Wrap(err, "Failed to evaluate left side of -")
 	}
 	if n.right == nil {
 		return 0, fmt.Errorf("Right side of - is nil")
 	}
 	b, err := n.right.Eval()
 	if err != nil {
-		return 0, err
+		return 0, errors.Wrap(err, "Failed to evaluate right side of -")
 	}
 	return a - b, nil
 }
@@ -262,14 +262,14 @@ func (n *timesNode) Eval() (float64, error) {
 	}
 	a, err := n.left.Eval()
 	if err != nil {
-		return 0, err
+		return 0, errors.Wrap(err, "Failed to evaluate left side of *")
 	}
 	if n.right == nil {
 		return 0, fmt.Errorf("Right side of * is nil")
 	}
 	b, err := n.right.Eval()
 	if err != nil {
-		return 0, err
+		return 0, errors.Wrap(err, "Failed to evaluate right side of *")
 	}
 	return a * b, nil
 }
@@ -285,17 +285,17 @@ func (n *divideNode) Eval() (float64, error) {
 	}
 	a, err := n.left.Eval()
 	if err != nil {
-		return 0, err
+		return 0, errors.Wrap(err, "Failed to evaluate left side of /")
 	}
 	if n.right == nil {
 		return 0, fmt.Errorf("Right side of / is nil")
 	}
 	b, err := n.right.Eval()
 	if err != nil {
-		return 0, err
+		return 0, errors.Wrap(err, "Failed to evaluate right side of /")
 	}
 	if b == 0 {
-		return 0, fmt.Errorf("Division by zero")
+		return 0, fmt.Errorf("Division by zero (%f / %f)", a, b)
 	}
 	return a / b, nil
 }

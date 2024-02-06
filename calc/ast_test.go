@@ -19,6 +19,10 @@ func TestAst(t *testing.T) {
 	testAst(t, "2 * (4 + 2 * 3)", 2.0*(4.0+2.0*3.0))
 	testAst(t, "2 * (4 + 2 * (3 + 4))", 2.0*(4.0+2.0*(3.0+4.0)))
 	testAst(t, "1*(2.3+4.5)", 1.0*(2.3+4.5))
+
+	testAstFail(t, "1+")
+	testAstFail(t, "1+*2")
+	testAstFail(t, "42/0")
 }
 
 func testAst(t *testing.T, input string, expected float64) {
@@ -37,5 +41,19 @@ func testAst(t *testing.T, input string, expected float64) {
 			t.Errorf("%s = %f, expected %f", input, result, expected)
 			return
 		}
+	})
+}
+
+func testAstFail(t *testing.T, input string) {
+	t.Run(input, func(t *testing.T) {
+		root, err := calc.Ast(calc.Tokenize(input))
+		if err != nil {
+			return
+		}
+		result, err := root.Eval()
+		if err != nil {
+			return
+		}
+		t.Errorf("Expected error parsing %s, got %f", input, result)
 	})
 }
