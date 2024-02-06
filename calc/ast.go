@@ -8,26 +8,26 @@ import (
 )
 
 // Ast takes a slice of tokens and returns an abstract syntax tree
-func Ast(tokens []string) (AstNode, error) {
+func Ast(tokens []Token) (AstNode, error) {
 	nodes := make([]AstNode, len(tokens))
 	for i := 0; i < len(tokens); i++ {
 		token := tokens[i]
-		switch token {
-		case "+":
+		switch token.Type {
+		case TokenPlus:
 			nodes[i] = &plusNode{}
-		case "-":
+		case TokenMinus:
 			nodes[i] = &minusNode{}
-		case "*":
+		case TokenMultiply:
 			nodes[i] = &timesNode{}
-		case "/":
+		case TokenDivide:
 			nodes[i] = &divideNode{}
-		case "(":
+		case TokenOpeningParenthesis:
 			// find the matching closing bracket
 			bracketCount := 1
 			for j := i + 1; j < len(tokens); j++ {
-				if tokens[j] == "(" {
+				if tokens[j].Type == TokenOpeningParenthesis {
 					bracketCount++
-				} else if tokens[j] == ")" {
+				} else if tokens[j].Type == TokenClosingParenthesis {
 					bracketCount--
 					if bracketCount == 0 {
 						subTree, err := Ast(tokens[i+1 : j])
@@ -41,12 +41,12 @@ func Ast(tokens []string) (AstNode, error) {
 				}
 			}
 			if bracketCount != 0 {
-				return nil, fmt.Errorf("Unmatched (")
+				return nil, fmt.Errorf("Unmatched opening bracket")
 			}
-		case ")":
+		case TokenClosingParenthesis:
 			return nil, fmt.Errorf("Unexpected )")
 		default:
-			number, err := ParseNumber(token)
+			number, err := ParseNumber(token.Str)
 			if err != nil {
 				return nil, errors.Wrapf(err, "Failed to parse number '%s'", token)
 			}
