@@ -2,12 +2,12 @@
 
 Simple CLI calculator
 
-[![Test](https://github.com/Frank-Mayer/calc/actions/workflows/test.yml/badge.svg)](https://github.com/Frank-Mayer/calc/actions/workflows/test.yml)
+[![Test](https://github.com/tsukinoko-kun/calc/actions/workflows/test.yml/badge.svg)](https://github.com/tsukinoko-kun/calc/actions/workflows/test.yml)
 
 ## Install
 
 ```bash
-go install github.com/Frank-Mayer/calc@latest
+go install github.com/tsukinoko-kun/calc@latest
 ```
 
 ## Examples

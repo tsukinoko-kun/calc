@@ -1,4 +1,4 @@
-module github.com/Frank-Mayer/calc
+module github.com/tsukinoko-kun/calc
 
 go 1.21.6
 

@@ -3,7 +3,7 @@ package calc_test
 import (
 	"testing"
 
-	"github.com/Frank-Mayer/calc/calc"
+	"github.com/tsukinoko-kun/calc/calc"
 )
 
 func TestTokenize(t *testing.T) {

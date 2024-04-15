@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Frank-Mayer/calc/calc"
+	"github.com/tsukinoko-kun/calc/calc"
 )
 
 func main() {
